@@ -38,4 +38,11 @@ public class Milk {
 	public long getPrice(){
 		return price;
 	}
+	public static void main(String[] args) {
+	Milk m = new Milk(1300, "Alföldi Tej Kft.", new Date(), 1.5, 189);
+	System.out.println(m);
+	}
+	public String toString(){
+		return "Ûrtartalma: "+capacity+" Gyártó: "+company+" Szavatossági ideje: "+warrant+" Zsírtartalma: "+dripping+" Ára: "+price+"Ft";
+	}
 }
