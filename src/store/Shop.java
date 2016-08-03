@@ -16,6 +16,9 @@ public class Shop {
 		this.milkbar = milkbar;
 		flag=milkbar.length-1;
 	}
+	public Shop(String name, String address, String owner){
+		this(name, address, owner, new Milk[13]);
+	}
 	public String getName(){
 		return name;
 	}
@@ -30,6 +33,9 @@ public class Shop {
 	}
 	public Milk purchasedMilk(Milk m){
 		return milkbar[flag--];
+	}
+	public void refillMilk(Milk m){
+		milkbar[++flag] = m;
 	}
 
 }
