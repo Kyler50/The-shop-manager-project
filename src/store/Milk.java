@@ -12,15 +12,13 @@ public class Milk {
 	private String company;
 	private Date warrant;
 	private double dripping;
-	private long price;
 
-	public Milk(long barCode, int capacity, String company, Date warrant, double dripping, long price) {
+	public Milk(long barCode, int capacity, String company, Date warrant, double dripping) {
 		this.barCode = barCode;
 		this.capacity = capacity;
 		this.company = company;
 		this.warrant = warrant;
 		this.dripping = dripping;
-		this.price = price;
 	}
 	public long getBarCode(){
 		return barCode;
@@ -40,11 +38,9 @@ public class Milk {
 	public double getDripping(){
 		return dripping;
 	}
-	public long getPrice(){
-		return price;
 	}
 	public static void main(String[] args) {
-	Milk m = new Milk(1300, "Alföldi Tej Kft.", new Date(), 1.5, 189);
+	Milk m = new Milk(1300, "Alföldi Tej Kft.", new Date(), 1.5);
 	System.out.println(m);
 	}
 	public String toString(){

@@ -17,6 +17,9 @@ public class Shop {
 		this.owner = owner;
 		this.milkbar = milkbar;
 	}
+	
+	
+	
 	public Shop(String name, String address, String owner){
 		this(name, address, owner, new Hashtable());
 	}
@@ -33,10 +36,56 @@ public class Shop {
 		return milkbar.isEmpty();
 	}
 	public Milk purchasedMilk(long barCode){
-		return (Milk)milkbar.remove(milkbar.get(new Long(barCode)));
+		ShopRegistration r = (ShopRegistration)milkbar.get(barCode);
+		if (r != null){
+			r.deductQuantity(1);
+			return r.getMilk();
+		}
+		return null;
 	}
 	public void refillMilk(Milk m){
-		milkbar.put(new Long(m.getBarCode()), m);
+		ShopRegistration r = (ShopRegistration)milkbar.get(m.getBarCode());
+		if (r == null){
+			r = new ShopRegistration(m, 1, 13);
+			milkbar.put(m.getBarCode(), r);
+		}
+		else r.addQuantity(1);
 	}
-
+	
+	
+	
+	class ShopRegistration{
+		private Milk m;
+		private int quantity;
+		private int price;
+		public ShopRegistration(Milk m, int quantity, int price){
+			this.m = m;
+			this.quantity = quantity;
+			this.price = price;
+		}
+		public Milk getMilk(){
+			return m;
+		}
+		public void setMilk(Milk m){
+			this.m = m;
+		}
+		public int getQuantity(){
+			return quantity;
+		}
+		public void setQuantity(int quantity){
+			this.quantity = quantity;
+		}
+		public void addQuantity(int quantity){
+			this.quantity += quantity;
+		}
+		public void deductQuantity(int quantity){
+			this.quantity -= quantity;
+		}
+		public int getPrice(){
+			return price;
+		}
+		public void setPrice(int price){
+			this.price = price;
+		}
+	}
 }
