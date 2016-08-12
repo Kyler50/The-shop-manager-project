@@ -7,18 +7,23 @@ import java.util.Date;
  *
  */
 public class Milk {
+	private long barCode;
 	private int capacity = 0;
 	private String company;
 	private Date warrant;
 	private double dripping;
 	private long price;
 
-	public Milk(int capacity, String company, Date warrant, double dripping, long price) {
+	public Milk(long barCode, int capacity, String company, Date warrant, double dripping, long price) {
+		this.barCode = barCode;
 		this.capacity = capacity;
 		this.company = company;
 		this.warrant = warrant;
 		this.dripping = dripping;
 		this.price = price;
+	}
+	public long getBarCode(){
+		return barCode;
 	}
 	public boolean isGood(){
 		return warrant.before( new Date());
