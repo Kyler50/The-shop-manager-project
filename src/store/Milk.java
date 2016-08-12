@@ -6,7 +6,7 @@ import java.util.Date;
  * @author Vas Richard Roland
  *
  */
-public class Milk {
+public abstract class Milk {
 	private long barCode;
 	private int capacity = 0;
 	private String company;
