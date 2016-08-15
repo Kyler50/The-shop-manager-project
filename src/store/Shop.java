@@ -3,15 +3,17 @@ package store;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import store.Shop.ShopRegistration;
+
 /**
  * @author Vas Richard Roland
  *
  */
 public class Shop {
 	private String name, address, owner;
-	private Hashtable milkbar;
+	private Hashtable<Long, ShopRegistration> milkbar;
 	
-	public Shop(String name, String address, String owner, Hashtable milkbar){
+	public Shop(String name, String address, String owner, Hashtable<Long, ShopRegistration> milkbar){
 		this.name = name;
 		this.address = address;
 		this.owner = owner;
@@ -19,39 +21,22 @@ public class Shop {
 	}
 	
 	
-	
 	public Shop(String name, String address, String owner){
-		this(name, address, owner, new Hashtable());
+		return;
 	}
-	public String getName(){
-		return name;
+	public Hashtable<Long, ShopRegistration> getMilkBar() {
+			return milkbar;
 	}
-	public String getAddress(){
-		return address;
+	public boolean isThereFood(Long barcode) {
+			if (getMilkBar().size() == 0 || !getMilkBar().containsKey(barcode)
+					|| getMilkBar().get(barcode).getQuantity() == 0) {
+		  			return false;
+		  		}
+		  		return true;
+		  	}
+	public void addNewMilk(Milk milk, int quantity, int price) {
+		getMilkBar().put(milk.getBarCode(), new ShopRegistration(milk, quantity, price));
 	}
-	public String getOwner(){
-		return owner;
-	}
-	public boolean haveMilk(){
-		return milkbar.isEmpty();
-	}
-	public Milk purchasedMilk(long barCode){
-		ShopRegistration r = (ShopRegistration)milkbar.get(barCode);
-		if (r != null){
-			r.deductQuantity(1);
-			return r.getMilk();
-		}
-		return null;
-	}
-	public void refillMilk(Milk m){
-		ShopRegistration r = (ShopRegistration)milkbar.get(m.getBarCode());
-		if (r == null){
-			r = new ShopRegistration(m, 1, 13);
-			milkbar.put(m.getBarCode(), r);
-		}
-		else r.addQuantity(1);
-	}
-	
 	
 	
 	class ShopRegistration{

@@ -7,43 +7,48 @@ import java.util.Date;
  *
  */
 public abstract class Milk {
-	private long barCode;
-	private int capacity = 0;
-	private String company;
-	private Date warrant;
+	public static final int LITER = 1000;
+	public static final int FELLITER = 500;
+	public static final int POHAR = 200;
+	public static final double ZSIROS = 2.8;
+	public static final double FELZSIROS = 1.5;
+	
+	private double capacity;
 	private double dripping;
 
-	public Milk(long barCode, int capacity, String company, Date warrant, double dripping) {
-		this.barCode = barCode;
-		this.capacity = capacity;
-		this.company = company;
-		this.warrant = warrant;
-		this.dripping = dripping;
+	public Milk(long barCode, String company, String warrant, double capacity, double dripping) {
+		super(barCode, company, warrant);
+		setCapacity(capacity);
+		setDripping(dripping);
 	}
-	public long getBarCode(){
-		return barCode;
-	}
-	public boolean isGood(){
-		return warrant.before( new Date());
-	}
-	public int getCapacity(){
+
+	public double getCapacity() {
 		return capacity;
 	}
-	public String getCompany(){
-		return company;
+
+	private void setCapacity(double capacity) {
+		if (capacity == 1000) {
+		this.capacity = LITER;
+		} else if (capacity < 1000 && capacity == 500 ) {
+			this.capacity = FELLITER;
+		} else {
+			this.capacity = POHAR;
+		}
 	}
-	public Date getWarrant(){
-		return warrant;
-	}
-	public double getDripping(){
+
+	public double getDripping() {
 		return dripping;
 	}
+
+	private void setDripping(double dripping) {
+		if (dripping > 2.8) {
+			this.dripping = ZSIROS;
+		} else {
+			this.dripping = FELZSIROS;
+		}
 	}
-	public static void main(String[] args) {
-	Milk m = new Milk(1300, "Alföldi Tej Kft.", new Date(), 1.5);
-	System.out.println(m);
-	}
+	
 	public String toString(){
-		return "Ûrtartalma: "+capacity+" Gyártó: "+company+" Szavatossági ideje: "+warrant+" Zsírtartalma: "+dripping+" Ára: "+price+"Ft";
+		return "Vonalkód: "+getBarCode()+" Ûrtartalma: "+capacity+" Gyártó: "+company+" Szavatossági ideje: "+warrant+" Zsírtartalma: "+dripping;
 	}
 }
