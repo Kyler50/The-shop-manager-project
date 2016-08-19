@@ -31,6 +31,7 @@ public class Shop {
 		return owner;
 	}
 	
+	
 	public boolean isThereSpecialProduct(Class<?> c){
 		for(Enumeration<ShopEntry> e = foodBar.elements();
 				e.hasMoreElements();){
@@ -49,8 +50,9 @@ public class Shop {
 		return isThereSpecialProduct(Cheese.class);
 	}
 	
-	public void refilledFood(Long barCode, long quantity){
+	public void refilledFood(Long barCode, long quantity)throws NonExistentFoodException{
 		ShopEntry s = (ShopEntry) foodBar.get(barCode);
+		if(s == null) throw new NonExistentFoodException("Nincs ilyen árú: "+barCode);
 		s.addQuantity(quantity);
 	}
 	
@@ -59,15 +61,17 @@ public class Shop {
 				s.addQuantity(quantity);
 		}
 	
-	public void purchaseFood(Long barCode, long quantity){
+	public void purchaseFood(Long barCode, long quantity)throws NonExistentFoodException, TooManyDeductionsException{
 		ShopEntry s = (ShopEntry) foodBar.get(barCode);
+		if(s == null) throw new NonExistentFoodException("Nincs ilyen árú: "+barCode);
 		if(s != null){
+			if (s.getQuantity() < quantity) throw new TooManyDeductionsException("Nincs már elegendõ mennyiség: "+barCode);
 			s.deductQuantity(quantity);
 		}
 	}
 	
-	public void removeFood(Long barCode){
-		foodBar.remove(barCode);
+	public void removeFood(Long barCode) throws NonExistentFoodException{
+		if(foodBar.remove(barCode) == null)throw new NonExistentFoodException("Nincs ilyen árú: "+barCode);
 	}
 	
 	
