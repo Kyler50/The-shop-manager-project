@@ -1,54 +1,39 @@
 package store;
 
+import store.Food;
 import java.util.Date;
 
-/**
- * @author Vas Richard Roland
- *
- */
-public abstract class Milk {
+
+public abstract class Milk extends Food {
 	public static final int LITER = 1000;
 	public static final int FELLITER = 500;
 	public static final int POHAR = 200;
 	public static final double ZSIROS = 2.8;
-	public static final double FELZSIROS = 1.5;
-	
-	private double capacity;
+	public static final double FELZSIROS = 1.5; 
+	 
+	private int capacity = 0;
 	private double dripping;
-
-	public Milk(long barCode, String company, String warrant, double capacity, double dripping) {
+	
+	
+	public Milk(long barCode, int capacity, String company, Date warrant, double dripping){
 		super(barCode, company, warrant);
-		setCapacity(capacity);
-		setDripping(dripping);
+		this.capacity = capacity;
+		this.dripping = dripping;
 	}
 
-	public double getCapacity() {
+	public int getCapacity(){
 		return capacity;
 	}
 
-	private void setCapacity(double capacity) {
-		if (capacity == 1000) {
-		this.capacity = LITER;
-		} else if (capacity < 1000 && capacity == 500 ) {
-			this.capacity = FELLITER;
-		} else {
-			this.capacity = POHAR;
-		}
-	}
-
-	public double getDripping() {
+	public double getDripping(){
 		return dripping;
-	}
-
-	private void setDripping(double dripping) {
-		if (dripping > 2.8) {
-			this.dripping = ZSIROS;
-		} else {
-			this.dripping = FELZSIROS;
-		}
 	}
 	
 	public String toString(){
-		return "Vonalkód: "+getBarCode()+" Ûrtartalma: "+capacity+" Gyártó: "+company+" Szavatossági ideje: "+warrant+" Zsírtartalma: "+dripping;
+		return "Vonalkód: "+barCode+ "\n"+
+				"Ûrtartalma: "+capacity+ "\n"+ 
+				"Gyártó: "+company+ "\n"+
+				"Szavatossági ideje: "+warrant+"\n"+
+				"Zsírtartalma: "+dripping+"\n";
 	}
 }

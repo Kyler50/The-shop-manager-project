@@ -1,75 +1,112 @@
 package store;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Vector;
 
-import store.Shop.ShopRegistration;
 
-/**
- * @author Vas Richard Roland
- *
- */
+
+
 public class Shop {
 	private String name, address, owner;
-	private Hashtable<Long, ShopRegistration> milkbar;
+	private Hashtable<Long, ShopEntry> foodBar;
 	
-	public Shop(String name, String address, String owner, Hashtable<Long, ShopRegistration> milkbar){
+	public Shop(String name, String address, String owner, Hashtable<Long, ShopEntry> foodBar){
 		this.name = name;
 		this.address = address;
 		this.owner = owner;
-		this.milkbar = milkbar;
+		this.foodBar = foodBar;
 	}
-	
 	
 	public Shop(String name, String address, String owner){
-		return;
+		this(name, address, owner, new Hashtable<Long, ShopEntry>());
 	}
-	public Hashtable<Long, ShopRegistration> getMilkBar() {
-			return milkbar;
+	
+	public String getName(){
+		return name;
 	}
-	public boolean isThereFood(Long barcode) {
-			if (getMilkBar().size() == 0 || !getMilkBar().containsKey(barcode)
-					|| getMilkBar().get(barcode).getQuantity() == 0) {
-		  			return false;
-		  		}
-		  		return true;
-		  	}
-	public void addNewMilk(Milk milk, int quantity, int price) {
-		getMilkBar().put(milk.getBarCode(), new ShopRegistration(milk, quantity, price));
+	public String getAddress(){
+		return address;
+	}
+	public String getOwner(){
+		return owner;
+	}
+	
+	public boolean isThereSpecialProduct(Class<?> c){
+		for(Enumeration<ShopEntry> e = foodBar.elements();
+				e.hasMoreElements();){
+			ShopEntry s = e.nextElement();
+			if(c.isInstance(s.getFood())&& s.getQuantity()>0)
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean isThereMilk(){
+		return isThereSpecialProduct(Milk.class);
+	}
+	
+	public boolean isThereCheese(){
+		return isThereSpecialProduct(Cheese.class);
+	}
+	
+	public void refilledFood(Long barCode, long quantity){
+		ShopEntry s = (ShopEntry) foodBar.get(barCode);
+		s.addQuantity(quantity);
+	}
+	
+	public void refilledNewFood(Food f, long quantity, long price){
+		ShopEntry s = new ShopEntry(f, quantity, price);
+				s.addQuantity(quantity);
+		}
+	
+	public void purchaseFood(Long barCode, long quantity){
+		ShopEntry s = (ShopEntry) foodBar.get(barCode);
+		if(s != null){
+			s.deductQuantity(quantity);
+		}
+	}
+	
+	public void removeFood(Long barCode){
+		foodBar.remove(barCode);
 	}
 	
 	
-	class ShopRegistration{
-		private Milk m;
-		private int quantity;
-		private int price;
-		public ShopRegistration(Milk m, int quantity, int price){
-			this.m = m;
+	
+	
+	
+	
+	
+	public class ShopEntry{
+		private Food f;
+		private long quantity;
+		private long price;
+		public ShopEntry(Food f, long quantity, long price){
+			this.f = f;
 			this.quantity = quantity;
 			this.price = price;
 		}
-		public Milk getMilk(){
-			return m;
+		public Food getFood(){
+			return f;
 		}
-		public void setMilk(Milk m){
-			this.m = m;
+		public void setFood(Food f){
+			this.f = f;
 		}
-		public int getQuantity(){
+		public long getQuantity(){
 			return quantity;
 		}
-		public void setQuantity(int quantity){
+		public void setQuantity(long quantity){
 			this.quantity = quantity;
 		}
-		public void addQuantity(int quantity){
+		public void addQuantity(long quantity){
 			this.quantity += quantity;
 		}
-		public void deductQuantity(int quantity){
+		public void deductQuantity(long quantity){
 			this.quantity -= quantity;
 		}
-		public int getPrice(){
+		public long getPrice(){
 			return price;
 		}
-		public void setPrice(int price){
+		public void setPrice(long price){
 			this.price = price;
 		}
 	}

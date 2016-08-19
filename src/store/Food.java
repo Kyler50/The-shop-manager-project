@@ -1,20 +1,19 @@
 package store;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public abstract class Food {
-	private long barCode;
-	private String company;
-	private LocalDate warrant;
+	protected Long barCode;
+	protected String company;
+	protected Date warrant;
 
-	public Food(long barcode, String company, String warrant) {
-		this.barCode = barcode;
+	public Food(long barCode, String company, Date warrant) {
+		this.barCode = barCode;
 		this.company = company;
-		setWarrant(warrant);
+		this.warrant = warrant;
 	}
 
-	public long getBarCode() {
+	public Long getBarCode() {
 		return barCode;
 	}
 
@@ -22,22 +21,16 @@ public abstract class Food {
 		return company;
 	}
 
-	public LocalDate getWarrant() {
+	public Date getWarrant() {
 		return warrant;
 	}
 
-	private void setWarrant(String warrant) {
-		LocalDate date = LocalDate.parse(warrant, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		this.warrant = date;
-	}
-
 	public boolean isGood() {
-		LocalDate currentDate = LocalDate.now();
-		return this.warrant.compareTo(currentDate) > 0;
+		return warrant.before(new Date());
 	}
 
 
 	public String toString() {
-		return "Vonalkód:" + getBarCode() + "Gyártó:" + getCompany() + "Szavatossági ideje:" + getWarrant();
+		return "Vonalkód:" + barCode + "Gyártó:" + company + "Szavatossági ideje:" + warrant;
 	}
 }

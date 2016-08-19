@@ -1,27 +1,16 @@
 package store;
 
-import java.util.UUID;
-import store.LongLifeMilk;
-import store.SemiLongLifeMilk;
-
-public class MilkFactory {
-	private static long generateID(){
-	UUID id = UUID.randomUUID();
-	return Math.abs(id.getMostSignificantBits());
-}
+import java.util.Date;
 
 
-
-	public LongLifeMilk makeNewLongLifeMilk(String company, String warrant, double capacity, double dripping) {
-			LongLifeMilk llMilk = new LongLifeMilk(generateID(), capacity, warrant, company, dripping);
-			return llMilk;
-		}
-	
-		public SemiLongLifeMilk makeNewSemiLongLifeMilk(String company, String warrant, double capacity, double dripping) {
-			SemiLongLifeMilk sllMilk = new SemiLongLifeMilk(generateID(), capacity, warrant, company, dripping);
-			return sllMilk;
-		}
-		public Cheese makeNewCheese(String company, String warrant, double weight, double dripping) {
-				Cheese cheese = new Cheese(generateId(), company, warrant, weight, dripping);
-				return cheese;
+public abstract class MilkFactory {
+	public static void main(String[] args) {
+		Milk LongLifeMilk = new LongLifeMilk(87564385, Milk.FELLITER, "Nem kapsz tejet rt.", new Date(), Milk.FELZSIROS);
+		System.out.println(LongLifeMilk);
+		System.out.println(LongLifeMilk.isGood());
+		
+		Milk SemiLongLifeMilk = new SemiLongLifeMilk(75453156, Milk.LITER, "Milkaboci zrt.", new Date(), Milk.ZSIROS);
+		System.out.println(SemiLongLifeMilk);
+		System.out.println(SemiLongLifeMilk.isGood());
+	}
 }
