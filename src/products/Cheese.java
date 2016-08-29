@@ -1,7 +1,6 @@
-package store;
+package products;
 
 import java.util.Date;
-import store.Food;
 
 public class Cheese extends Food {
 	private double weight;

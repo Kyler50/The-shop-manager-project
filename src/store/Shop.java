@@ -3,18 +3,24 @@ package store;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import exception.NonExistentFoodException;
+import exception.TooManyDeductionsException;
+import products.Cheese;
+import products.Product;
+import products.Milk;
+
 
 
 
 public class Shop {
 	private String name, address, owner;
-	private Hashtable<Long, ShopEntry> foodBar;
+	private Hashtable<Long, ShopEntry> productBar;
 	
-	public Shop(String name, String address, String owner, Hashtable<Long, ShopEntry> foodBar){
+	public Shop(String name, String address, String owner, Hashtable<Long, ShopEntry> productBar){
 		this.name = name;
 		this.address = address;
 		this.owner = owner;
-		this.foodBar = foodBar;
+		this.productBar = productBar;
 	}
 	
 	public Shop(String name, String address, String owner){
@@ -33,7 +39,7 @@ public class Shop {
 	
 	
 	public boolean isThereSpecialProduct(Class<?> c){
-		for(Enumeration<ShopEntry> e = foodBar.elements();
+		for(Enumeration<ShopEntry> e = productBar.elements();
 				e.hasMoreElements();){
 			ShopEntry s = e.nextElement();
 			if(c.isInstance(s.getFood())&& s.getQuantity()>0)
@@ -50,19 +56,19 @@ public class Shop {
 		return isThereSpecialProduct(Cheese.class);
 	}
 	
-	public void refilledFood(Long barCode, long quantity)throws NonExistentFoodException{
-		ShopEntry s = (ShopEntry) foodBar.get(barCode);
+	public void refilledFood(Long barCode, long quantity)throws ShopException{
+		ShopEntry s = (ShopEntry) productBar.get(barCode);
 		if(s == null) throw new NonExistentFoodException("Nincs ilyen árú: "+barCode);
 		s.addQuantity(quantity);
 	}
 	
-	public void refilledNewFood(Food f, long quantity, long price){
+	public void refilledNewFood(Product f, long quantity, long price){
 		ShopEntry s = new ShopEntry(f, quantity, price);
 				s.addQuantity(quantity);
 		}
 	
-	public void purchaseFood(Long barCode, long quantity)throws NonExistentFoodException, TooManyDeductionsException{
-		ShopEntry s = (ShopEntry) foodBar.get(barCode);
+	public void purchaseFood(Long barCode, long quantity)throws ShopException{
+		ShopEntry s = (ShopEntry) productBar.get(barCode);
 		if(s == null) throw new NonExistentFoodException("Nincs ilyen árú: "+barCode);
 		if(s != null){
 			if (s.getQuantity() < quantity) throw new TooManyDeductionsException("Nincs már elegendõ mennyiség: "+barCode);
@@ -70,8 +76,8 @@ public class Shop {
 		}
 	}
 	
-	public void removeFood(Long barCode) throws NonExistentFoodException{
-		if(foodBar.remove(barCode) == null)throw new NonExistentFoodException("Nincs ilyen árú: "+barCode);
+	public void removeFood(Long barCode) throws ShopException{
+		if(productBar.remove(barCode) == null)throw new NonExistentFoodException("Nincs ilyen árú: "+barCode);
 	}
 	
 	
@@ -81,19 +87,19 @@ public class Shop {
 	
 	
 	public class ShopEntry{
-		private Food f;
+		private Product p;
 		private long quantity;
 		private long price;
-		public ShopEntry(Food f, long quantity, long price){
-			this.f = f;
+		public ShopEntry(Product p, long quantity, long price){
+			this.p = p;
 			this.quantity = quantity;
 			this.price = price;
 		}
-		public Food getFood(){
-			return f;
+		public Product getProduct(){
+			return p;
 		}
-		public void setFood(Food f){
-			this.f = f;
+		public void setProduct(Product p){
+			this.p = p;
 		}
 		public long getQuantity(){
 			return quantity;

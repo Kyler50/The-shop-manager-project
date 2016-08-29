@@ -1,7 +1,7 @@
-package store;
-import store.Milk;
-
+package milk;
 import java.util.Date;
+
+import products.Milk;
 
 public class SemiLongLifeMilk extends Milk {
 	public SemiLongLifeMilk(long barCode, int capacity, String company, Date warrant, double dripping){

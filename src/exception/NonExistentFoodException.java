@@ -1,6 +1,8 @@
-package store;
+package exception;
 
-public class NonExistentFoodException extends Exception {
+import store.ShopException;
+
+public class NonExistentFoodException extends ShopException {
 	/**
 	 * 
 	 */

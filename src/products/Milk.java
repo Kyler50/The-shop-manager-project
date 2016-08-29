@@ -1,6 +1,5 @@
-package store;
+package products;
 
-import store.Food;
 import java.util.Date;
 
 

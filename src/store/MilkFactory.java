@@ -2,6 +2,10 @@ package store;
 
 import java.util.Date;
 
+import milk.LongLifeMilk;
+import milk.SemiLongLifeMilk;
+import products.Milk;
+
 
 public abstract class MilkFactory {
 	public static void main(String[] args) {

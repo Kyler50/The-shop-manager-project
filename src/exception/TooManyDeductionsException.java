@@ -1,6 +1,8 @@
-package store;
+package exception;
 
-public class TooManyDeductionsException extends Exception {
+import store.ShopException;
+
+public class TooManyDeductionsException extends ShopException {
 	/**
 	 * 
 	 */
