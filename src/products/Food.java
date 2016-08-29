@@ -2,10 +2,13 @@ package products;
 
 import java.util.Date;
 
-public abstract class Food {
+import store.Product;
+
+public abstract class Food extends Product {
 	protected Date warrant;
 
-	public Food(long barCode, String company, Date warrant) {
+	public Food(Long barCode, String company, Date warrant) {
+		super(barCode, company);
 		this.warrant = warrant;
 	}
 	

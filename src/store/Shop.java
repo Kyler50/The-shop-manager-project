@@ -1,12 +1,13 @@
 package store;
 
+
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import exception.NonExistentFoodException;
 import exception.TooManyDeductionsException;
 import products.Cheese;
-import products.Product;
+import store.Product;
 import products.Milk;
 
 
@@ -42,7 +43,7 @@ public class Shop {
 		for(Enumeration<ShopEntry> e = productBar.elements();
 				e.hasMoreElements();){
 			ShopEntry s = e.nextElement();
-			if(c.isInstance(s.getFood())&& s.getQuantity()>0)
+			if(c.isInstance(s.getProduct())&& s.getQuantity()>0)
 				return true;
 		}
 		return false;
