@@ -29,7 +29,8 @@ public abstract class Milk extends Food {
 	}
 	
 	public String toString(){
-		return "Vonalkód: "+barCode+ "\n"+
+		return 	"Tej"+ "\n"+
+				"Vonalkód: "+barCode+ "\n"+
 				"Ûrtartalma: "+capacity+ "\n"+ 
 				"Gyártó: "+company+ "\n"+
 				"Szavatossági ideje: "+warrant+"\n"+

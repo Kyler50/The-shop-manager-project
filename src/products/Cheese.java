@@ -21,7 +21,8 @@ public class Cheese extends Food {
 	}
 	
 	public String toString(){
-		return "Vonalkód: "+barCode+ "\n"+
+		return "Sajt"+ "\n"+
+				"Vonalkód: "+barCode+ "\n"+
 				"Súly: "+weight+ "\n"+ 
 				"Gyártó: "+company+ "\n"+
 				"Szavatossági ideje: "+warrant+"\n"+
