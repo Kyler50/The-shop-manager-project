@@ -14,23 +14,34 @@ import products.Milk;
 
 
 
-public class Shop implements Store {
+public abstract class Shop implements Store {
 	private String name, address, owner;
 	private Hashtable<Long, ShopEntry> productBar;
+	private boolean open=false;
 	
-	
-	
-	public Shop(String name, String address, String owner, Hashtable<Long, ShopEntry> productBar){
-		this.name = name;
-		this.address = address;
-		this.owner = owner;
-		this.productBar = productBar;
+	class ProductIterator implements Iterator{
+		private Iterator i;
+		ProductIterator(Iterator i){
+			this.i = i;
+		}
+		public boolean hasNext(){
+			return i.hasNext();
+		}
+		public Object next(){
+			return ((Product)(i.next())).getBarCode();
+		}
+		public void remove(){
+			i.remove();
+		}
 	}
-	
-	public Shop(String name, String address, String owner){
-		this(name, address, owner, new Hashtable<Long, ShopEntry>());
+	public Iterator items() throws ClosedException{
+		if(!open) throw new ClosedException("Zárva van a bolt.");
+		return new ProductIterator(productBar.values().iterator());
 	}
-	
+	public void purchase(Product p, long quantity) throws ShopException, ClosedException{
+		if(!open) throw new ClosedException("Zárvan van a bolt");
+		purchaseFood(p.getBarCode(), quantity);
+	}
 	public String getName(){
 		return name;
 	}
@@ -39,6 +50,12 @@ public class Shop implements Store {
 	}
 	public String getOwner(){
 		return owner;
+	}
+	public void unlock(){
+		open=true;
+	}
+	public void lock(){
+		open=false;
 	}
 	
 	
@@ -123,26 +140,5 @@ public class Shop implements Store {
 		public void setPrice(long price){
 			this.price = price;
 		}
-	}
-	
-	
-	
-	class ProductIterator implements Iterator{
-		private Iterator i;
-		ProductIterator(Iterator i){
-			this.i = i;
-		}
-		public boolean hasNext(){
-			return i.hasNext();
-		}
-		public Object next(){
-			return ((Product)(i.next())).getBarCode();
-		}
-		public void remove(){
-			i.remove();
-		}
-	}
-	public Iterator products(){
-		return new ProductIterator(productBar.values().iterator());
 	}
 }
