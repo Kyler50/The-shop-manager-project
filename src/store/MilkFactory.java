@@ -20,6 +20,8 @@ public class MilkFactory {
 	public static Milk newSemmiSkimmedLiterLongLifeMilk(Long barCode, int capacity, String company, Date warrant){
 		return new LongLifeMilk(barCode, capacity, company, warrant, Milk.FELZSIROS);
 	}
+	
+	
 	public static void main(String[] args) {
 		Milk LongLifeMilk = new LongLifeMilk((long) 87564385, Milk.FELLITER, "Nem kapsz tejet rt.", new Date(), Milk.FELZSIROS);
 		System.out.println(LongLifeMilk);

@@ -2,6 +2,7 @@ package store;
 
 
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Hashtable;
 
 import exception.NonExistentFoodException;
@@ -13,9 +14,14 @@ import products.Milk;
 
 
 
-public class Shop {
+public class Shop implements Store {
 	private String name, address, owner;
 	private Hashtable<Long, ShopEntry> productBar;
+	
+	public Iterator products(){
+		return productBar.values().iterator();
+	}
+	
 	
 	public Shop(String name, String address, String owner, Hashtable<Long, ShopEntry> productBar){
 		this.name = name;
