@@ -28,7 +28,8 @@ public abstract class Shop implements Store {
 			return i.hasNext();
 		}
 		public Object next(){
-			return ((Product)(i.next())).getBarCode();
+			Product p = (Product)i.next();
+			return new Product(p.getBarCode(), p.getCompany()){};
 		}
 		public void remove(){
 			i.remove();
