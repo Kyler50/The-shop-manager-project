@@ -1,5 +1,6 @@
 package store;
 
+import java.io.File;
 import java.util.Iterator;
 
 public interface Store {
@@ -10,4 +11,5 @@ public interface Store {
 	String getOwner();
 	void unlock();
 	void lock();
+	File getLog() throws ShopException;
 }

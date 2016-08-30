@@ -1,6 +1,10 @@
 package store;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Hashtable;
@@ -18,6 +22,9 @@ public abstract class Shop implements Store {
 	private String name, address, owner;
 	private Hashtable<Long, ShopEntry> productBar;
 	private boolean open=false;
+	private File logFile;
+	private FileWriter logWriter;
+	private String logPath;
 	
 	class ProductIterator implements Iterator{
 		private Iterator i;
@@ -54,13 +61,35 @@ public abstract class Shop implements Store {
 	}
 	public void unlock(){
 		open=true;
+		try{
+			logFile = new File(logPath+File.separator+"Bolt"+new Date());
+			logWriter = new FileWriter(logFile);
+		}catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 	public void lock(){
 		open=false;
+		try{
+			logWriter.close();
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+	public File getLog() throws ShopException{
+		if(!open) return logFile;
+		else throw new ShopException("A bolt nyitva!");
+	}
+	public void log(String s){
+		try{
+			logWriter.write(s);
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	
 	public boolean isThereSpecialProduct(Class<?> c){
+		log("Termék elérhetõségének ellenõrzése:"+c);
 		for(Enumeration<ShopEntry> e = productBar.elements();
 				e.hasMoreElements();){
 			ShopEntry s = e.nextElement();
@@ -79,17 +108,21 @@ public abstract class Shop implements Store {
 	}
 	
 	public void refilledFood(Long barCode, long quantity)throws ShopException{
+		log("Árufeltöltés a "+barCode+"áruból "+quantity+"mennyiséggel.");
 		ShopEntry s = (ShopEntry) productBar.get(barCode);
 		if(s == null) throw new NonExistentFoodException("Nincs ilyen árú: "+barCode);
 		s.addQuantity(quantity);
 	}
 	
 	public void refilledNewFood(Product f, long quantity, long price){
+		log("Új árucikk feltöltése:"+f+";"+quantity+"mennyiséggel.");
 		ShopEntry s = new ShopEntry(f, quantity, price);
 				s.addQuantity(quantity);
 		}
 	
 	public void purchaseFood(Long barCode, long quantity)throws ShopException{
+		log("Élelmiszer vásárlás a"+barCode+"áruból, "+quantity+"mennyiséggel.");
+		log("Árufeltöltés a "+barCode+"áruból "+quantity+"mennyiséggel.");
 		ShopEntry s = (ShopEntry) productBar.get(barCode);
 		if(s == null) throw new NonExistentFoodException("Nincs ilyen árú: "+barCode);
 		if(s != null){
@@ -99,6 +132,7 @@ public abstract class Shop implements Store {
 	}
 	
 	public void removeFood(Long barCode) throws ShopException{
+		log("Árucikk törlése: "+barCode);
 		if(productBar.remove(barCode) == null)throw new NonExistentFoodException("Nincs ilyen árú: "+barCode);
 	}
 	
