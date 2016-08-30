@@ -18,9 +18,6 @@ public class Shop implements Store {
 	private String name, address, owner;
 	private Hashtable<Long, ShopEntry> productBar;
 	
-	public Iterator products(){
-		return productBar.values().iterator();
-	}
 	
 	
 	public Shop(String name, String address, String owner, Hashtable<Long, ShopEntry> productBar){
@@ -126,5 +123,26 @@ public class Shop implements Store {
 		public void setPrice(long price){
 			this.price = price;
 		}
+	}
+	
+	
+	
+	class ProductIterator implements Iterator{
+		private Iterator i;
+		ProductIterator(Iterator i){
+			this.i = i;
+		}
+		public boolean hasNext(){
+			return i.hasNext();
+		}
+		public Object next(){
+			return ((Product)(i.next())).getBarCode();
+		}
+		public void remove(){
+			i.remove();
+		}
+	}
+	public Iterator products(){
+		return new ProductIterator(productBar.values().iterator());
 	}
 }
