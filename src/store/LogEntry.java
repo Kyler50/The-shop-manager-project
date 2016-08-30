@@ -8,6 +8,6 @@ public interface LogEntry {
 	boolean isPurchase();
 	boolean isRefill();
 	boolean isProductRemove();
-	boolean isGetFullLogging();
+	boolean isGetProductList();
 
 }
