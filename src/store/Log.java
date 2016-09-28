@@ -4,13 +4,13 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 public interface Log {
-	InputStream getLogStream();
-	Iterator getCustomer();
+	InputStream getLogStream() throws ShopException;
+	Iterator getPurchases();
 	Iterator getRefilleds();
 	Iterator getProductRemove();
 	Iterator getProductList();
 	Iterator getFullLogging();
-	LogEntry[] getFullLoggingAsArray();
+	LogRegistry[] getFullLoggingAsArray();
 	
 
 }
